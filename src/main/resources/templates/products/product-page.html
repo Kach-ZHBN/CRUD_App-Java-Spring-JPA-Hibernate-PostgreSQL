@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.getId()}">Title</title>
+</head>
+<body>
+    <p th:text="${product.getId()}">Number</p>
+    <p th:text="${product.getName()}">Product name</p>
+
+    <div th:if="${product.getPcb() != null}">
+        <a th:href="@{/pcb/{id}(id=${product.getPcb().getId()})}" th:text="${product.getPcb().getId()}">7P</a>
+    </div>
+
+    <div th:if="${product.getPcb() == null}">
+        <p>Плата не присвоена</p>
+    </div>
+
+    <form th:action="@{/products/{id}/edit(id=${product.getId()})}">
+        <input type="submit" value="Edit"/>
+    </form>
+
+    <form th:method="DELETE" th:action="@{/products/{id}(id=${product.getId()})}">
+        <input type="submit" value="Delete"/>
+    </form>
+
+    <a th:href="@{/products}">All products</a>
+</body>
+</html>

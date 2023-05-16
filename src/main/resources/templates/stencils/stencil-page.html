@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${stencil.getId()}">Title</title>
+</head>
+<body>
+    <p th:text="${stencil.getId()}">Number</p>
+    <p th:text="${stencil.getPcbSide()}">Pcb side</p>
+    <p th:text="${stencil.getThickness()}">Thickhess</p>
+    <p th:text="${stencil.getArea()}">Area</p>
+
+<!--    -->
+    <div th:if="${!stencil.getPcbList().isEmpty()}">
+        Платы:<br/>
+        <div th:each="pcb : ${stencil.getPcbList()}">
+            <a th:href="@{/pcb/{id}(id=${pcb.getId()})}" th:text="${pcb.getId()}"></a>
+        </div>
+    </div>
+    <div th:if="${stencil.getPcbList().isEmpty()}">
+        <p>Этот трафарет не привязан к платам</p>
+    </div>
+<!--    -->
+
+    <a th:href="@{/stencils/{id}/edit(id=${stencil.getId()})}">Edit</a>
+    <form th:method="DELETE" th:action="@{/stencils/{id}(id=${stencil.getId()})}">
+        <input type="submit" value="Delete"/>
+    </form>
+
+    <a th:href="@{/stencils}">All stencils</a>
+</body>
+</html>

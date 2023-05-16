@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pcbToUpdate.getId()}">Title</title>
+</head>
+<body>
+<form th:method="PATCH" th:action="@{/pcb/{id}(id=${pcbToUpdate.getId()})}" th:object="${pcbToUpdate}">
+    <p th:text="${pcbToUpdate.getId()}">id</p>
+    <br/>
+    <label for="name">Name: </label>
+    <input type="text" th:field="*{name}" id="name" />
+    <br/>
+    <input type="submit" value="Update"/>
+</form>
+</body>
+</html>

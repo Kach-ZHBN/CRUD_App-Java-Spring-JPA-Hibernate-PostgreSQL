@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All PCB</title>
+</head>
+<body>
+    <div th:each="PCB : ${PCBs}">
+      <a th:href="@{/pcb/{id}(id=${PCB.getId()})}" th:text="${PCB.getId()}">Id</a>
+      <a th:href="@{/pcb/{id}(id=${PCB.getId()})}" th:text="${PCB.getName()}">Product name</a>
+    </div>
+    <hr/>
+    <a th:href="@{/pcb/new}">New PCB</a>
+    <hr/>
+    <a th:href="@{/}">Main page</a>
+</body>
+</html>

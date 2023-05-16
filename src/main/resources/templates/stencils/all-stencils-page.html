@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All stencils</title>
+</head>
+<body>
+    <div th:each="stencil : ${stencils}">
+        <a th:href="@{/stencils/{id}(id=${stencil.getId()})}" th:text="${stencil.getId()}">Number</a>
+        <a th:href="@{/stencils/{id}(id=${stencil.getId()})}" th:text="${stencil.getPcbSide()}">PCB side</a>
+        <a th:href="@{/stencils/{id}(id=${stencil.getId()})}" th:text="${stencil.getThickness()}">Thickness</a>
+        <a th:href="@{/stencils/{id}(id=${stencil.getId()})}" th:text="${stencil.getArea()}">Area</a>
+    </div>
+    <hr/>
+    <a th:href="@{/stencils/new}">New stencil</a>
+    <hr/>
+    <a th:href="@{/}">Main page</a>
+</body>
+</html>

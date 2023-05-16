@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${PCB.getId()}">Title</title>
+</head>
+<body>
+    <p th:text="${PCB.getId()}">Number</p>
+    <p th:text="${PCB.getName()}">Product name</p>
+<!--Изделия-->
+    <div th:if="${!PCB.getProductList().isEmpty()}">
+        <div th:each="product : ${PCB.getProductList()}">
+            <a th:href="@{/products/{id}(id=${product.getId()})}" th:text="${product.getId()}"></a>
+        </div>
+    </div>
+    <div th:if="${PCB.getProductList().isEmpty()}">
+        <p>Плата не принадлежит ни одному изделию</p>
+    </div>
+<!--Трафареты-->
+    <div th:if="${!PCB.getStensilList().isEmpty()}">
+        Трафареты:<br/>
+        <div th:each="stencil : ${PCB.getStensilList()}">
+            <a th:href="@{/stencils/{id}(id=${stencil.getId()})}" th:text="${stencil.getId()}"></a>
+        </div>
+    </div>
+    <div th:if="${PCB.getStensilList().isEmpty()}">
+        <p>Ни один трафарет ни привязан к плате</p>
+    </div>
+<!--    -->
+    <a th:href="@{/pcb/{id}/edit(id=${PCB.getId()})}">Edit</a>
+    <form th:method="DELETE" th:action="@{/pcb/{id}(id=${PCB.getId()})}">
+      <input type="submit" value="Delete"/>
+    </form>
+
+    <a th:href="@{/pcb}">All PCB</a>
+</body>
+</html>
