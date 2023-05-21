@@ -10,6 +10,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 public class ProductsService {
@@ -28,6 +30,10 @@ public class ProductsService {
     }
     public Product findProductByid(String id){
         return productsRepository.findById(id).orElse(null);
+    }
+
+    public List<Product> findProductWherePcbIsNull(){
+        return productsRepository.findByPcbIsNull();
     }
 
     @Transactional

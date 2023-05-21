@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select stencil</title>
+</head>
+<body>
+<div th:each="stencil : ${stencils}">
+    <a th:href="@{/stencils/{id}(id=${stencil.getId()})}" th:text="${stencil.getId()}">Number</a>
+    <a th:href="@{/stencils/{id}(id=${stencil.getId()})}" th:text="${stencil.getPcbSide()}">Stencil side</a>
+    <form th:method="PATCH" th:action="@{/pcb/{pcbId}/stencil(pcbId=${pcbId})}">
+        <input type="hidden" name="stencilId" th:value="${stencil.getId()}">
+        <input type="submit" value="Select"/>
+    </form>
+</div>
+</body>
+</html>

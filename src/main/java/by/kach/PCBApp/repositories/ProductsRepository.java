@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ProductsRepository extends JpaRepository<Product, String> {
-
+    List<Product> findByPcbIsNull();
 }

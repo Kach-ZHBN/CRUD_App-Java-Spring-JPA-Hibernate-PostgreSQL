@@ -7,25 +7,43 @@
 <body>
     <p th:text="${PCB.getId()}">Number</p>
     <p th:text="${PCB.getName()}">Product name</p>
+    <hr/>
 <!--Изделия-->
     <div th:if="${!PCB.getProductList().isEmpty()}">
         <div th:each="product : ${PCB.getProductList()}">
             <a th:href="@{/products/{id}(id=${product.getId()})}" th:text="${product.getId()}"></a>
+            <form th:method="DELETE" th:action="@{/pcb/{id}/product(id=${PCB.getId()})}">
+                <input type="hidden" name="productForDelete" th:value="${product.getId()}">
+                <input type="submit" value="Отвязать продукт от платы">
+            </form>
         </div>
     </div>
     <div th:if="${PCB.getProductList().isEmpty()}">
-        <p>Плата не принадлежит ни одному изделию</p>
+        <p>Плата не принадлежит ни одному продукту</p>
     </div>
+<!--Запрос формы для добавления продукта к плате-->
+    <form th:action="@{/pcb/{id}/product(id=${PCB.getId()})}">
+        <input type="submit" value="Добавить продукт">
+    </form>
+    <hr/>
 <!--Трафареты-->
     <div th:if="${!PCB.getStensilList().isEmpty()}">
-        Трафарет:<br/>
+        Трафареты:<br/>
         <div th:each="stencil : ${PCB.getStensilList()}">
             <a th:href="@{/stencils/{id}(id=${stencil.getId()})}" th:text="${stencil.getId()}"></a>
+            <form th:method="DELETE" th:action="@{/pcb/{id}/stencil(id=${PCB.getId()})}">
+                <input type="hidden" name="stencilId" th:value="${stencil.getId()}">
+                <input type="submit" value="Отвязать трафарет от платы">
+            </form>
         </div>
     </div>
     <div th:if="${PCB.getStensilList().isEmpty()}">
         <p>Ни один трафарет ни привязан к плате</p>
     </div>
+    <form th:action="@{/pcb/{id}/stencil(id=${PCB.getId()})}">
+        <input type="submit" value="Добавить трафарет">
+    </form>
+    <hr/>
 <!--    -->
     <a th:href="@{/pcb/{id}/edit(id=${PCB.getId()})}">Edit</a>
     <form th:method="DELETE" th:action="@{/pcb/{id}(id=${PCB.getId()})}">

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Select product</title>
+</head>
+<body>
+    <div th:each="product : ${products}">
+        <a th:href="@{/products/{id}(id=${product.getId()})}" th:text="${product.getId()}">Number</a>
+        <a th:href="@{/products/{id}(id=${product.getId()})}" th:text="${product.getName()}">Product name</a>
+        <form th:method="PATCH" th:action="@{/pcb/{pcbId}/product(pcbId=${pcbId})}">
+            <input type="hidden" name="productId" th:value="${product.getId()}">
+            <input type="submit" value="Select"/>
+        </form>
+    </div>
+</body>
+</html>

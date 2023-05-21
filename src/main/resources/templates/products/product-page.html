@@ -15,6 +15,7 @@
         </form>
     </div>
     <div th:if="${product.getPcb() == null}">
+        Продукт не содержит в себе платы.
         <form th:action="@{/products/{id}/pcb(id=${product.getId()})}">
             <input type="submit" value="Присвоить плату">
         </form>

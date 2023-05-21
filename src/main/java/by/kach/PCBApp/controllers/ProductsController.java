@@ -68,7 +68,7 @@ public class ProductsController {
     }
 
     @GetMapping("/{id}/pcb")
-    public String getPCBform(@PathVariable("id") String id, Model model){
+    public String getPCBForm(@PathVariable("id") String id, Model model){
         model.addAttribute("productId", id);
         model.addAttribute("PCBs", pcbService.findAllPCB());
         return "products/add-pcb-page";

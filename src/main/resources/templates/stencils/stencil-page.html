@@ -9,24 +9,40 @@
     <p th:text="${stencil.getPcbSide()}">Pcb side</p>
     <p th:text="${stencil.getThickness()}">Thickhess</p>
     <p th:text="${stencil.getArea()}">Area</p>
+    <hr/>
 
 <!--    -->
     <div th:if="${!stencil.getPcbList().isEmpty()}">
         Платы:<br/>
         <div th:each="pcb : ${stencil.getPcbList()}">
             <a th:href="@{/pcb/{id}(id=${pcb.getId()})}" th:text="${pcb.getId()}"></a>
+            <form th:method="DELETE" th:action="@{/stencils/{id}/pcb(id=${stencil.getId()})}">
+                <input type="hidden" name="pcbId" th:value="${pcb.getId()}">
+                <input type="submit" value="Отвязать">
+            </form>
         </div>
     </div>
     <div th:if="${stencil.getPcbList().isEmpty()}">
         <p>Этот трафарет не привязан к платам</p>
     </div>
+    <form th:action="@{/stencils/{id}/pcb(id=${stencil.getId()})}">
+        <input type="submit" value="Добавить плату">
+    </form>
+    <hr/>
 <!--    -->
 
-    <a th:href="@{/stencils/{id}/edit(id=${stencil.getId()})}">Edit</a>
+    <form th:action="@{/stencils/{id}/edit(id=${stencil.getId()})}">
+        <input type="submit" value="Edit"/>
+    </form>
     <form th:method="DELETE" th:action="@{/stencils/{id}(id=${stencil.getId()})}">
         <input type="submit" value="Delete"/>
     </form>
+    <form th:action="@{/stencils}">
+        <input type="submit" value="All stencils"/>
+    </form>
+    <form th:action="@{/}">
+        <input type="submit", value="Main page">
+    </form>
 
-    <a th:href="@{/stencils}">All stencils</a>
 </body>
 </html>
