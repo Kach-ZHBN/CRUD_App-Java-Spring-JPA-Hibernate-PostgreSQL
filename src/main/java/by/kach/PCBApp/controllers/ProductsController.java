@@ -1,6 +1,8 @@
 package by.kach.PCBApp.controllers;
 
+import by.kach.PCBApp.models.PCB;
 import by.kach.PCBApp.models.Product;
+import by.kach.PCBApp.services.PCBService;
 import by.kach.PCBApp.services.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,10 +14,12 @@ import org.springframework.web.bind.annotation.*;
 public class ProductsController {
 
     private final ProductsService productsService;
+    private final PCBService pcbService;
 
     @Autowired
-    public ProductsController(ProductsService productsService) {
+    public ProductsController(ProductsService productsService, PCBService pcbService) {
         this.productsService = productsService;
+        this.pcbService = pcbService;
     }
 
     @GetMapping()
@@ -62,5 +66,25 @@ public class ProductsController {
         productsService.deleteProduct(id);
         return "redirect:/products";
     }
+
+    @GetMapping("/{id}/pcb")
+    public String getPCBform(@PathVariable("id") String id, Model model){
+        model.addAttribute("productId", id);
+        model.addAttribute("PCBs", pcbService.findAllPCB());
+        return "products/add-pcb-page";
+    }
+
+    @PostMapping("/{productId}/pcb/{pcbId}")
+    public String setPCB(@PathVariable("productId") String productId, @PathVariable("pcbId") String pcbId){
+        productsService.setPCBtoProduct(productId, pcbId);
+        return "redirect:/products/" + productId;
+    }
+
+    @DeleteMapping("/{productId}/pcb")
+    public String deletePCB(@PathVariable("productId") String productId){
+        productsService.deletePCB(productId);
+        return "redirect:/products/" + productId;
+    }
+
 
 }

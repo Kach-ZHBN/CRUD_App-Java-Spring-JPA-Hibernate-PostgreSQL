@@ -1,8 +1,11 @@
 package by.kach.PCBApp.services;
 
+import by.kach.PCBApp.models.PCB;
 import by.kach.PCBApp.models.Product;
+import by.kach.PCBApp.repositories.PCBRepository;
 import by.kach.PCBApp.repositories.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Persistable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,10 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class ProductsService {
 
     private final ProductsRepository productsRepository;
+    private final PCBService pcbService;
 
     @Autowired
-    public ProductsService(ProductsRepository productsRepository) {
+    public ProductsService(ProductsRepository productsRepository, PCBService pcbService) {
         this.productsRepository = productsRepository;
+        this.pcbService = pcbService;
     }
 
     public Iterable<Product> findAllProducts(){
@@ -44,5 +49,27 @@ public class ProductsService {
     public void deleteProduct(String id){
         Product productToRemove = findProductByid(id);
         productsRepository.delete(productToRemove);
+    }
+
+    @Transactional
+    public void setPCBtoProduct(String productId, String pcbId){
+        Product product = findProductByid(productId);
+        PCB pcb = pcbService.findPCBbyid(pcbId);
+        product.setPcb(pcb);
+        pcb.getProductList().add(product);
+
+        updateProduct(productId, product);
+        pcbService.updatePCB(pcbId, pcb);
+    }
+
+    @Transactional
+    public void deletePCB(String productId){
+        Product product = findProductByid(productId);
+        PCB pcb = pcbService.findPCBbyid(product.getPcb().getId());
+        product.setPcb(null);
+        pcb.getProductList().remove(product);
+
+        updateProduct(productId, product);
+        pcbService.updatePCB(pcb.getId(), pcb);
     }
 }

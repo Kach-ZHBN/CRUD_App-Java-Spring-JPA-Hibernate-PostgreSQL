@@ -9,11 +9,16 @@
     <p th:text="${product.getName()}">Product name</p>
 
     <div th:if="${product.getPcb() != null}">
-        <a th:href="@{/pcb/{id}(id=${product.getPcb().getId()})}" th:text="${product.getPcb().getId()}">7P</a>
+        <a th:href="@{/pcb/{id}(id=${product.getPcb().getId()})}" th:text="${product.getPcb().getId()}">PCB_ID</a>
+        <form th:method="DELETE" th:action="@{/products/{id}/pcb(id=${product.getId()})}">
+            <input type="submit" value="Delete PCB"/>
+        </form>
     </div>
 
     <div th:if="${product.getPcb() == null}">
-        <p>Плата не присвоена</p>
+        <form th:action="@{/products/{id}/pcb(id=${product.getId()})}">
+            <input type="submit" value="Присвоить плату">
+        </form>
     </div>
 
     <form th:action="@{/products/{id}/edit(id=${product.getId()})}">
