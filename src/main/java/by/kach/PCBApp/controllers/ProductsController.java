@@ -74,8 +74,8 @@ public class ProductsController {
         return "products/add-pcb-page";
     }
 
-    @PostMapping("/{productId}/pcb/{pcbId}")
-    public String setPCB(@PathVariable("productId") String productId, @PathVariable("pcbId") String pcbId){
+    @PatchMapping("/{productId}/pcb")
+    public String setPCB(@PathVariable("productId") String productId, @ModelAttribute("pcbId") String pcbId){
         productsService.setPCBtoProduct(productId, pcbId);
         return "redirect:/products/" + productId;
     }

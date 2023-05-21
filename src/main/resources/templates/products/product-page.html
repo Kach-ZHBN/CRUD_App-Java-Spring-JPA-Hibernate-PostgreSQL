@@ -7,28 +7,26 @@
 <body>
     <p th:text="${product.getId()}">Number</p>
     <p th:text="${product.getName()}">Product name</p>
-
+    <hr/>
     <div th:if="${product.getPcb() != null}">
         <a th:href="@{/pcb/{id}(id=${product.getPcb().getId()})}" th:text="${product.getPcb().getId()}">PCB_ID</a>
         <form th:method="DELETE" th:action="@{/products/{id}/pcb(id=${product.getId()})}">
             <input type="submit" value="Delete PCB"/>
         </form>
     </div>
-
     <div th:if="${product.getPcb() == null}">
         <form th:action="@{/products/{id}/pcb(id=${product.getId()})}">
             <input type="submit" value="Присвоить плату">
         </form>
     </div>
-
+    <hr/>
     <form th:action="@{/products/{id}/edit(id=${product.getId()})}">
         <input type="submit" value="Edit"/>
     </form>
-
     <form th:method="DELETE" th:action="@{/products/{id}(id=${product.getId()})}">
         <input type="submit" value="Delete"/>
     </form>
-
+    <hr/>
     <a th:href="@{/products}">All products</a>
 </body>
 </html>

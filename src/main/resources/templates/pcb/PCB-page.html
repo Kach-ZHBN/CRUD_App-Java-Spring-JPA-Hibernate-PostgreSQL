@@ -18,7 +18,7 @@
     </div>
 <!--Трафареты-->
     <div th:if="${!PCB.getStensilList().isEmpty()}">
-        Трафареты:<br/>
+        Трафарет:<br/>
         <div th:each="stencil : ${PCB.getStensilList()}">
             <a th:href="@{/stencils/{id}(id=${stencil.getId()})}" th:text="${stencil.getId()}"></a>
         </div>

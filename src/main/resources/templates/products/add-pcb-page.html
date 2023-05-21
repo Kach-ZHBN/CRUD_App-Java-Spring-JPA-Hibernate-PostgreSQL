@@ -8,9 +8,11 @@
     <div th:each="pcb : ${PCBs}">
         <a th:href="@{/pcb/{id}(id=${pcb.getId()})}" th:text="${pcb.getId()}">Number</a>
         <a th:href="@{/pcb/{id}(id=${pcb.getId()})}" th:text="${pcb.getName()}">PCB name</a>
-        <form th:method="POST" th:action="@{/products/{productId}/pcb/{pcbId}(productId=${productId}, pcbId=${pcb.getId()})}">
+        <form th:method="PATCH" th:action="@{/products/{productId}/pcb(productId=${productId})}">
+            <input type="hidden" name="pcbId" th:value="${pcb.getId()}">
             <input type="submit" value="Select"/>
         </form>
     </div>
+
 </body>
 </html>
