@@ -1,7 +1,6 @@
 package by.kach.PCBApp.controllers;
 
 import by.kach.PCBApp.models.PCB;
-import by.kach.PCBApp.models.Product;
 import by.kach.PCBApp.models.Stencil;
 import by.kach.PCBApp.services.PCBService;
 import by.kach.PCBApp.services.ProductsService;
@@ -79,27 +78,13 @@ public class PCBController {
 
     @PatchMapping("/{id}/product")
     public String setProduct(@PathVariable("id") String pcbId, @ModelAttribute("productId") String productId){
-        PCB pcb = pcbService.findPCBbyid(pcbId);
-        Product product = productsService.findProductByid(productId);
-        pcb.getProductList().add(product);
-        product.setPcb(pcb);
-
-        pcbService.updatePCB(pcbId, pcb);
-        productsService.updateProduct(productId, product);
-
+        productsService.setPCBtoProduct(productId, pcbId);
         return "redirect:/pcb/" + pcbId;
     }
 
     @DeleteMapping("/{id}/product")
     public String deleteProduct(@PathVariable("id") String pcbId, @ModelAttribute("productForDelete") String productId){
-        PCB pcb = pcbService.findPCBbyid(pcbId);
-        Product product = productsService.findProductByid(productId);
-
-        pcb.getProductList().remove(product);
-        product.setPcb(null);
-
-        pcbService.updatePCB(pcbId, pcb);
-        productsService.updateProduct(productId, product);
+        productsService.deletePCB(productId);
         return "redirect:/pcb/" + pcbId;
     }
 
@@ -112,32 +97,14 @@ public class PCBController {
 
     @PatchMapping("/{id}/stencil")
     public String setStencil(@PathVariable("id") String pcbId, @ModelAttribute("stencilId") String stencilId){
-        PCB pcb = pcbService.findPCBbyid(pcbId);
-        Stencil stencil = stencilsService.findStencilbyid(stencilId);
-
-        pcb.getStensilList().add(stencil);
-        stencil.getPcbList().add(pcb);
-
-        pcbService.updatePCB(pcbId, pcb);
-        stencilsService.updateStencil(stencilId, stencil);
-
+        stencilsService.setPCB(stencilId, pcbId);
         return "redirect:/pcb/" + pcbId;
     }
 
     @DeleteMapping("/{id}/stencil")
     public String deleteStencil(@PathVariable("id") String pcbId, @ModelAttribute("stencilId") String stencilId){
-        PCB pcb = pcbService.findPCBbyid(pcbId);
-        Stencil stencil = stencilsService.findStencilbyid(stencilId);
-
-        pcb.getStensilList().remove(stencil);
-        stencil.getPcbList().remove(pcb);
-
-        pcbService.updatePCB(pcbId, pcb);
-        stencilsService.updateStencil(stencilId, stencil);
-
+        stencilsService.deletePCB(stencilId, pcbId);
         return "redirect:/pcb/" + pcbId;
     }
-
-
 
 }

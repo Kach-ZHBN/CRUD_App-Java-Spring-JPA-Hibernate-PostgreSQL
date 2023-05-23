@@ -1,6 +1,5 @@
 package by.kach.PCBApp.controllers;
 
-import by.kach.PCBApp.models.PCB;
 import by.kach.PCBApp.models.Stencil;
 import by.kach.PCBApp.services.PCBService;
 import by.kach.PCBApp.services.StencilsService;
@@ -29,7 +28,7 @@ public class StencilsController {
 
     @GetMapping("/{id}")
     public String getStencilPage(@PathVariable("id") String id, Model model){
-        model.addAttribute("stencil", stencilsService.findStencilbyid(id));
+        model.addAttribute("stencil", stencilsService.findStencilbyId(id));
         return "stencils/stencil-page";
     }
 
@@ -50,7 +49,7 @@ public class StencilsController {
 
     @GetMapping("/{id}/edit")
     public String getEditForm(@PathVariable("id") String id, Model model){
-        model.addAttribute("stencilToUpdate", stencilsService.findStencilbyid(id));
+        model.addAttribute("stencilToUpdate", stencilsService.findStencilbyId(id));
         return "stencils/edit-stencil-page";
     }
 
@@ -76,30 +75,17 @@ public class StencilsController {
 
     @PatchMapping("/{id}/pcb")
     public String setPcb(@PathVariable("id") String stencilId, @ModelAttribute("pcbId") String pcbId){
-        Stencil stencil = stencilsService.findStencilbyid(stencilId);
-        PCB pcb = pcbService.findPCBbyid(pcbId);
-
-        stencil.getPcbList().add(pcb);
-        pcb.getStensilList().add(stencil);
-
-        stencilsService.updateStencil(stencilId, stencil);
-        pcbService.updatePCB(pcbId, pcb);
-
+        stencilsService.setPCB(stencilId, pcbId);
         return "redirect:/stencils/" + stencilId;
     }
 
     @DeleteMapping("/{id}/pcb")
     public String deletePcb(@PathVariable("id") String stencilId, @ModelAttribute("pcbId") String pcbId){
-        Stencil stencil = stencilsService.findStencilbyid(stencilId);
-        PCB pcb = pcbService.findPCBbyid(pcbId);
-
-        stencil.getPcbList().remove(pcb);
-        pcb.getStensilList().remove(stencil);
-
-        stencilsService.updateStencil(stencilId, stencil);
-        pcbService.updatePCB(pcbId, pcb);
-
+        stencilsService.deletePCB(stencilId, pcbId);
         return "redirect:/stencils/" + stencilId;
     }
+
+
+
 
 }

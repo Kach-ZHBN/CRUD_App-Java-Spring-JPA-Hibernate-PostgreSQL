@@ -17,12 +17,12 @@ import java.util.List;
 public class ProductsService {
 
     private final ProductsRepository productsRepository;
-    private final PCBService pcbService;
+    private final PCBRepository pcbRepository;
 
     @Autowired
-    public ProductsService(ProductsRepository productsRepository, PCBService pcbService) {
+    public ProductsService(ProductsRepository productsRepository, PCBRepository pcbRepository) {
         this.productsRepository = productsRepository;
-        this.pcbService = pcbService;
+        this.pcbRepository = pcbRepository;
     }
 
     public Iterable<Product> findAllProducts(){
@@ -60,22 +60,22 @@ public class ProductsService {
     @Transactional
     public void setPCBtoProduct(String productId, String pcbId){
         Product product = findProductByid(productId);
-        PCB pcb = pcbService.findPCBbyid(pcbId);
+        PCB pcb = pcbRepository.findById(pcbId).orElse(null);
         product.setPcb(pcb);
         pcb.getProductList().add(product);
 
         updateProduct(productId, product);
-        pcbService.updatePCB(pcbId, pcb);
+        pcbRepository.save(pcb);
     }
 
     @Transactional
     public void deletePCB(String productId){
         Product product = findProductByid(productId);
-        PCB pcb = pcbService.findPCBbyid(product.getPcb().getId());
+        PCB pcb = pcbRepository.findById(product.getPcb().getId()).orElse(null);
         product.setPcb(null);
         pcb.getProductList().remove(product);
 
         updateProduct(productId, product);
-        pcbService.updatePCB(pcb.getId(), pcb);
+        pcbRepository.save(pcb);
     }
 }

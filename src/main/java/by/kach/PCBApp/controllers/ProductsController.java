@@ -85,6 +85,4 @@ public class ProductsController {
         productsService.deletePCB(productId);
         return "redirect:/products/" + productId;
     }
-
-
 }
